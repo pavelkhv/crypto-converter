@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap');
+@import './reset.scss';
+
+$main-font: 'Rajdhani', sans-serif;
+
+html {
+  font-family: $main-font;
+  font-size: 15px;
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #2f2769 0%, #0f0e33 60%);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
