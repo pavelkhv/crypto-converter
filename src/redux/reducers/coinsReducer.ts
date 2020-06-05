@@ -1,26 +1,31 @@
 import { ActionCoinsTypes } from "../actions/index";
 import { CoinType } from "../../types/types";
+import { GET_COINS, ERROR_COINS } from "../actionTypes";
 
-const initialState: Array<CoinType> = [
-  {
-    id: "",
-    name: "",
-    fullName: "",
-    iconUrl: "",
-    price: "",
-    high24: "",
-    low24: "",
-    open24: "",
-    change24: "",
-    change24Hour: "",
-  },
-];
-
-export const coinsReducer = (state = initialState, action: ActionCoinsTypes): Array<CoinType> => {
-  switch (action.type) {
-    case "GET_COINS":
-      return [...action.payload.coins];
-    default:
-      return state;
-  }
+type InitialStateType = {
+  list: Array<CoinType>;
+  errorMessage: string;
 };
+
+const initialState: InitialStateType = {
+  list: [],
+  errorMessage: "",
+};
+
+export const coinsReducer = 
+  (state = initialState, action: ActionCoinsTypes): InitialStateType => {
+    switch (action.type) {
+      case GET_COINS:
+        return {
+          list: action.payload.coins,
+          errorMessage: "",
+        };
+      case ERROR_COINS:
+        return {
+          list: [],
+          errorMessage: action.payload.errorMessage,
+        };
+      default:
+        return state;
+    }
+  };
