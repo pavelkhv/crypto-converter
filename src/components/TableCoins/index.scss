@@ -33,6 +33,16 @@
         text-align-last: left;
       }
     }
+    &__sort {
+      cursor: pointer;
+      &:after {
+        content: '\e900';
+        font-family: 'IconFont';
+        font-size: 0.8rem;
+        margin-left: 10px;
+        color: #b7b7b7;
+      }
+    }
     &__percent {
       display: inline-block;
       text-align: center;
@@ -79,16 +89,6 @@ th.table-coins__column {
   font-size: 0.9rem;
   font-weight: 300;
   color: #b7b7b7;
-  &:after {
-    content: '';
-    display: inline-block;
-    width: 11px;
-    height: 11px;
-    background: url('../../assets/img/icons/sort.png') no-repeat;
-    background-size: 11px 11px;
-    margin-left: 10px;
-    opacity: 0.5;
-  }
 }
 
 .currency {

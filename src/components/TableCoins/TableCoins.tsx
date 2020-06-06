@@ -15,12 +15,13 @@ type Props = {
   currency: string;
   loading: boolean;
   setCurrency: (value: string) => void;
+  setSort: (sort: keyof CoinType) => void;
 };
 
 const currencies: Array<string> = ["USD", "EUR", "BTC", "USDT", "ETH", "GBP", "JPY", "KRW"];
 
 const TableCoins: React.FC<Props> = 
-  ({coins, errorMessage, currency, loading, setCurrency}: Props) => (
+  ({coins, errorMessage, currency, loading, setCurrency, setSort}: Props) => (
     <div className="content-wrapper">
       <ul className="currency-list">
         {currencies.map((curr: string) => (
@@ -39,7 +40,7 @@ const TableCoins: React.FC<Props> =
 
       <div className="table-wrapper">
         <table className="table-coins">
-          <TableHeader />
+          <TableHeader setSort={setSort} />
           <tbody>
             {coins.map((coin: CoinType) => (
               <TableRow key={coin.id} coin={coin} />

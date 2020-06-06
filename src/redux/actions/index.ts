@@ -42,8 +42,8 @@ export const getCoinsAction =
         .then((res) => {
           const data = res.Data;
 
-          const coinData = data.map((item: typeof data[0]) => {
-            const itemDisplay = item.DISPLAY[currency],
+          const coinData = data.map((item: typeof data[0]): CoinType => {
+            const itemDisplay = item.DISPLAY ? item.DISPLAY[currency] : {},
                   itemInfo = item.CoinInfo;
 
             return {
