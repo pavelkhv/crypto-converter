@@ -15,13 +15,12 @@ $main-font: 'Rajdhani', sans-serif;
 
 html {
   font-family: $main-font;
-  font-size: 15px;
 }
 
 .app {
   width: 100%;
   min-height: 100vh;
-  padding: 5rem 0;
+  padding-bottom: 2rem;
   background: linear-gradient(135deg, #2f2769 0%, #0f0e33 60%);
 }
 

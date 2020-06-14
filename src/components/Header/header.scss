@@ -1,0 +1,13 @@
+.header {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  &__link {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: #b7b7b7;
+    margin-right: 2rem;
+  }
+}

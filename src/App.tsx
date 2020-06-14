@@ -1,14 +1,31 @@
-import React from "react";
+import React, { Suspense } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Main from "./containers/Main/Main";
+import routes from "./routes";
+
+import Header from "./components/Header/Header";
 
 const App: React.FC = () => {
   return (
-    <div className="app">
-      <div className="container">
-        <Main />
+    <Router>
+      <div className="app">
+        <Header />
+        <div className="container">
+          <Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+              {routes.map(route => (
+                <Route
+                  key={route.id}
+                  path={route.path}
+                  exact={route.exact}
+                  render={props => <route.component {...props} />}
+                />
+              ))}
+            </Switch>
+          </Suspense>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 };
 
