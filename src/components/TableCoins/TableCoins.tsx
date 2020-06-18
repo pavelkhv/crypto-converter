@@ -21,7 +21,7 @@ type Props = {
 const currencies: Array<string> = ["USD", "EUR", "BTC", "USDT", "ETH", "GBP", "JPY", "KRW"];
 
 const TableCoins: React.FC<Props> = 
-  ({coins, errorMessage, currency, loading, setCurrency, setSort}: Props) => (
+  ({coins, errorMessage, currency, loading, setCurrency, setSort}) => (
     <div className="content-wrapper">
       <ul className="currency-list">
         {currencies.map((curr: string) => (

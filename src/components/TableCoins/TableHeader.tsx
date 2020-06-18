@@ -6,7 +6,7 @@ type Props = {
   setSort: (sort: keyof CoinType) => void;
 };
 
-const TableHeader: React.FC<Props> = ({ setSort }: Props) => {
+const TableHeader: React.FC<Props> = ({ setSort }) => {
   return (
     <thead>
       <tr className="table-coins__row">

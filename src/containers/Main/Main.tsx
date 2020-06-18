@@ -55,46 +55,43 @@ const sortingCoins = (coins: Array<CoinType>, sort: SortType): Array<CoinType> =
   })
 } 
 
-const Main: React.FC<PropsFromReduxType> = ({
-  coins,
-  errorMessage,
-  getCoinsAction,
-}: PropsFromReduxType) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { currency, currentPage, loading, sort } = state;
+const Main: React.FC<PropsFromReduxType> = 
+  ({coins, errorMessage, getCoinsAction}) => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const { currency, currentPage, loading, sort } = state;
 
-  const sortCoinsList = useMemo(() => sortingCoins(coins, sort), [coins, sort])
+    const sortCoinsList = useMemo(() => sortingCoins(coins, sort), [coins, sort])
 
-  useEffect(() => {
-    dispatch(setLoadingAction(true));
-    getCoinsAction(currency, currentPage);
-  }, [currency, currentPage, getCoinsAction]);
+    useEffect(() => {
+      dispatch(setLoadingAction(true));
+      getCoinsAction(currency, currentPage);
+    }, [currency, currentPage, getCoinsAction]);
 
-  useEffect(() => {
-    dispatch(setLoadingAction(false));
-  }, [coins]);
+    useEffect(() => {
+      dispatch(setLoadingAction(false));
+    }, [coins]);
 
-  return (
-    <Fragment>
-      <TableCoins
-        coins={sortCoinsList}
-        errorMessage={errorMessage}
-        currency={currency}
-        loading={loading}
-        setCurrency={curr => dispatch(setCurrencyAction(curr))}
-        setSort={sort => dispatch(setSortAction(sort))}
-      />
-      {coins.length ? 
-        <Pagination
-          onChange={page => dispatch(setPageAction(page))}
-          current={currentPage}
-          pageSize={20}
-          total={200}
-          showTitle={false}
+    return (
+      <Fragment>
+        <TableCoins
+          coins={sortCoinsList}
+          errorMessage={errorMessage}
+          currency={currency}
+          loading={loading}
+          setCurrency={curr => dispatch(setCurrencyAction(curr))}
+          setSort={sort => dispatch(setSortAction(sort))}
         />
-       : ""}
-    </Fragment>
-  );
-};
+        {coins.length ? 
+          <Pagination
+            onChange={page => dispatch(setPageAction(page))}
+            current={currentPage}
+            pageSize={20}
+            total={200}
+            showTitle={false}
+          />
+        : ""}
+      </Fragment>
+    );
+  };
 
 export default connector(Main);

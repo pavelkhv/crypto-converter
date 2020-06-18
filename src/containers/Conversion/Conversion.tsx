@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteProps } from "react-router-dom";
 
-const Conversion: React.FC<RouteProps> = (props: RouteProps) => {
+const Conversion: React.FC<RouteProps> = (props) => {
   return <div>Conversion Page</div>;
 };
 

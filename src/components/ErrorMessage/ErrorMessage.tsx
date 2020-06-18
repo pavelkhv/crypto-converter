@@ -7,6 +7,6 @@ type Props = {
 }
 
 const ErrorMessage: React.FC<Props> = 
-  ({ message }: Props) => <div className="errorMessage">{message}</div>;
+  ({ message }) => <div className="errorMessage">{message}</div>;
 
 export default ErrorMessage;
