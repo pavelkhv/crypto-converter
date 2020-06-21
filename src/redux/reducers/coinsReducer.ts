@@ -1,4 +1,4 @@
-import { ActionCoinsTypes } from "../actions/index";
+import { ActionCoinsTypes } from "../actions/coinsAction";
 import { CoinType } from "../../types/types";
 import { GET_COINS, ERROR_COINS } from "../actionTypes";
 

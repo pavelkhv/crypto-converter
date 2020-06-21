@@ -2,55 +2,42 @@ import React from "react";
 
 import TableRow from "./TableRow";
 import TableHeader from "./TableHeader";
+import TableCurrencies from "./TableCurrencies";
 import Preloader from "../Preloader/Preloader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
-import { CoinType } from "../../types/types";
+import { CoinType, ThemeType } from "../../types/types";
 
 import "./index.scss";
 
 type Props = {
   coins: Array<CoinType>;
   errorMessage: string;
+  theme: ThemeType;
   currency: string;
   loading: boolean;
   setCurrency: (value: string) => void;
   setSort: (sort: keyof CoinType) => void;
 };
 
-const currencies: Array<string> = ["USD", "EUR", "BTC", "USDT", "ETH", "GBP", "JPY", "KRW"];
-
 const TableCoins: React.FC<Props> = 
-  ({coins, errorMessage, currency, loading, setCurrency, setSort}) => (
+  ({coins, errorMessage, theme, currency, loading, setCurrency, setSort}) => (
     <div className="content-wrapper">
-      <ul className="currency-list">
-        {currencies.map((curr: string) => (
-          <li
-            key={curr}
-            onClick={() => setCurrency(curr)}
-            className={currency === curr
-              ? "currency-list__item_active"
-              : "currency-list__item"
-            }
-          >
-            {curr}
-          </li>
-        ))}
-      </ul>
+      <TableCurrencies currency={currency} theme={theme} setCurrency={setCurrency}/> 
 
-      <div className="table-wrapper">
-        <table className="table-coins">
+      <div className={`table-wrapper table-wrapper_${theme}`}>
+        <table className={`table-coins table-coins_${theme}`}>
           <TableHeader setSort={setSort} />
           <tbody>
             {coins.map((coin: CoinType) => (
-              <TableRow key={coin.id} coin={coin} />
+              <TableRow key={coin.id} coin={coin} theme={theme} />
             ))}
           </tbody>
         </table>
 
         {
           errorMessage ? <ErrorMessage message={errorMessage} /> : 
-          loading || !coins.length ? <Preloader /> : ""
+          loading || !coins.length ? <Preloader theme={theme} /> : ""
         }
       </div>
     </div>

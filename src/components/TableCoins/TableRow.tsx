@@ -1,8 +1,8 @@
 import React from "react";
 
-import { CoinType } from "../../types/types";
+import { CoinType, ThemeType } from "../../types/types";
 
-type Props = { coin: CoinType };
+type Props = { coin: CoinType, theme: ThemeType };
 
 const TableRow: React.FC<Props> = (props) => {
   const {
@@ -23,7 +23,7 @@ const TableRow: React.FC<Props> = (props) => {
     Number(change24Hour) < 0 ? "red" : "white";
 
   return (
-    <tr className="table-coins__row">
+    <tr className={`table-coins__row table-coins__row_${props.theme}`}>
       <td className="table-coins__column">
         <img className="table-coins__icon" src={iconSrc} alt="coin-icon" />
         <div className="table-coins__names">
@@ -35,7 +35,12 @@ const TableRow: React.FC<Props> = (props) => {
       <td className="table-coins__column">{price}</td>
 
       <td className="table-coins__column">
-        <span className={`table-coins__percent_${colorPercent}`}>
+        <span 
+          className={`
+            table-coins__percent_${colorPercent}
+            table-coins__percent_${colorPercent}_${props.theme}
+          `}
+        >
           {change24Hour}%
         </span>
       </td>

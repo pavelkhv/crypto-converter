@@ -10,3 +10,5 @@ export type CoinType = {
   change24: string,
   change24Hour: string,
 }
+
+export type ThemeType = "dark" | "light";

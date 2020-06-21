@@ -1,12 +1,12 @@
-import React, { Fragment, useEffect, useState, useMemo, useReducer } from "react";
+import React, { Fragment, useEffect, useMemo, useReducer } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import Pagination from "rc-pagination";
 
 import TableCoins from "../../components/TableCoins/TableCoins";
 
 // Redux store actions
-import { getCoinsAction } from "../../redux/actions/index";
-import { CoinType } from "../../types/types";
+import { getCoinsAction } from "../../redux/actions/coinsAction";
+import { CoinType, ThemeType } from "../../types/types";
 // Actions for component's state
 import { 
   setCurrencyAction, 
@@ -22,12 +22,14 @@ type StateType = {
     list: Array<CoinType>;
     errorMessage: string;
   };
+  theme: ThemeType;
 };
 type PropsFromReduxType = ConnectedProps<typeof connector>;
 
 const mapStateToProps = (state: StateType) => ({
   coins: state.coins.list,
   errorMessage: state.coins.errorMessage,
+  theme: state.theme
 });
 const connector = connect(mapStateToProps, { getCoinsAction });
 
@@ -56,11 +58,11 @@ const sortingCoins = (coins: Array<CoinType>, sort: SortType): Array<CoinType> =
 } 
 
 const Main: React.FC<PropsFromReduxType> = 
-  ({coins, errorMessage, getCoinsAction}) => {
+  ({coins, errorMessage, theme, getCoinsAction}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const { currency, currentPage, loading, sort } = state;
 
-    const sortCoinsList = useMemo(() => sortingCoins(coins, sort), [coins, sort])
+    const sortCoinsList = useMemo(() => sortingCoins(coins, sort), [coins, sort]);
 
     useEffect(() => {
       dispatch(setLoadingAction(true));
@@ -80,9 +82,11 @@ const Main: React.FC<PropsFromReduxType> =
           loading={loading}
           setCurrency={curr => dispatch(setCurrencyAction(curr))}
           setSort={sort => dispatch(setSortAction(sort))}
+          theme={theme}
         />
         {coins.length ? 
           <Pagination
+            className={`pagination_${theme}`}
             onChange={page => dispatch(setPageAction(page))}
             current={currentPage}
             pageSize={20}

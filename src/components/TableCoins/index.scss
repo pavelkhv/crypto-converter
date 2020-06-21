@@ -1,28 +1,47 @@
+@import "../../assets/scss/variables.scss";
+
 .content-wrapper {
+  border-radius: 5px;
   box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.52);
 }
 
 .table {
   &-wrapper {
     position: relative;
-    background: #1E1A42;
     padding: 0 1rem;
     min-height: 100px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    transition: $transition;
+    &_dark {
+      background: #1E1A42;
+    }
+    &_light {
+      background: $white-color;
+    }
   }
 
   &-coins {
     width: 100%;
-    background: #1E1A42;
-    color: #fff;
     font-weight: 300;
+    transition: $transition;
+    &_dark {
+      color: $white-color;
+    }
+    &_light {
+      color: $main-text-color;
+    }
     &__row {
       text-align: right;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       font-weight: 600;
       &:last-child {
         border-bottom: 0;
+      }
+      &_dark {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      &_light {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       }
     }
     &__column {
@@ -40,7 +59,7 @@
         font-family: 'IconFont';
         font-size: 0.8rem;
         margin-left: 10px;
-        color: #b7b7b7;
+        color: $grey-color;
       }
     }
     &__percent {
@@ -57,12 +76,19 @@
       &_red {
         @extend .table-coins__percent;
         background: rgba(194, 53, 53, 0.2);
-        color: rgb(201, 94, 94);
+        color: #c95e5e;
       }
       &_white {
         @extend .table-coins__percent;
-        background: rgba(223, 223, 223, 0.2);
-        color: rgb(255, 255, 255);
+        transition: $transition;
+        &_dark {
+          background: rgba(223, 223, 223, 0.2);
+          color: $white-color;
+        }
+        &_light {
+          background: rgba(223, 223, 223, 0.5);
+          color: $main-text-color;
+        }
       }
     }
     &__icon {
@@ -77,7 +103,7 @@
     }
     &__fullName {
       font-weight: 400;
-      color: #b7b7b7;
+      color: $grey-color;
       font-size: 0.9rem;
     }
   }
@@ -88,7 +114,7 @@ th.table-coins__column {
   padding-bottom: 0;
   font-size: 0.9rem;
   font-weight: 300;
-  color: #b7b7b7;
+  color: $grey-color;
 }
 
 .currency {
@@ -96,31 +122,65 @@ th.table-coins__column {
     display: flex;
     align-items: center;
     padding: 1rem;
-    background: #1E1A42;
-    border-bottom: 1px solid #2E2A5E;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    transition: $transition;
+    &_dark {
+      background: #1E1A42;
+      border-bottom: 1px solid #2E2A5E;
+    }
+    &_light {
+      background: $white-color;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
     &__item {
       padding: 0.5rem 1.5rem;
       margin-right: 1rem;
       border-radius: 5px;
-      background: #272253;
-      color: #ccc;
-      font-weight: 600;
-      transition: 0.3s;
+      color: $grey-color;
+      font-weight: 700;
+      transition: $transition;
       cursor: pointer;
-      &:hover {
-        background: #342e6b;
+      &_dark {
+        background: #272253;
+        &:hover {
+          background: $dark-theme-bg-hover;
+        }
+        &.currency-list__item_active {
+          color: $main-text-color;
+        }
+      }
+      &_light {
+        background: #F6F5FA;
+        &:hover {
+          background: #eae9f1;
+        }
+        &.currency-list__item_active {
+          color: $white-color;
+          &:before {
+            opacity: 0;
+          }
+        }
       }
       &_active {
         @extend .currency-list__item;
-        background: linear-gradient(120deg, rgba(255,255,255,1) 0%, rgba(138,187,236,1) 70%);
-        color: #000;
-        font-weight: 700;
+        position: relative;
+        z-index: 1;
+        background: $light-theme-active-button;
+        &:before {
+          content: "";
+          position: absolute;
+          z-index: -1;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 5px;
+          transition: $transition;
+          background: $dark-theme-active-button;
+        }
         &:hover {
-          background: linear-gradient(120deg, rgba(255,255,255,1) 0%, rgba(138,187,236,1) 70%);
-          color: #000;
-          font-weight: 700;
+          background: $light-theme-active-button;
         }
       }
     }
