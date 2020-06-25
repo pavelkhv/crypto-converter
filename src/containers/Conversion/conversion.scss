@@ -1,0 +1,126 @@
+@import "../../assets/scss/variables.scss";
+
+.conversion {
+  &-block {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border-radius: 5px;
+    box-shadow: $box-shadow;
+    padding: 1rem;
+    transition: $transition;
+    &_dark {
+      background: $dark-theme-block-bg;
+    }
+    &_light {
+      background: $white-color;
+    }
+    &__info {
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      transition: $transition;
+      &_dark {
+        color: $white-color;
+      }
+      &_light {
+        color: $main-text-color;
+      }
+    }
+    &__column {
+      width: 47%;
+    }
+    &__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    &__input {
+      width: 45%;
+      height: 50px;
+      background: transparent;
+      border: none;
+      outline: 0;
+      font-size: 2rem;
+      transition: $transition;
+      overflow-x: hidden;
+      &_dark {
+        border-bottom: 1px solid $white-color;
+        color: $white-color;
+      }
+      &_light {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        color: $main-text-color;
+      }
+      &:focus {
+        border-bottom: 1px solid #5c9ca9;
+      }
+    }
+    &__select {
+      width: 45%;
+      height: 50px;
+      line-height: 42px;
+      background: transparent;
+      font-size: 1.5rem;
+      transition: $transition;
+      // styles select
+      .css-yk16xz-control {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+      }
+      .css-g1d714-ValueContainer {
+        padding: 0;
+      }
+      // styles focus select
+      .css-1pahdxg-control {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+      // styles text select
+      .css-1uccc91-singleValue {
+        font-weight: 700;
+        transition: $transition;
+      }
+      // styles dropdown menu
+      .css-4ljt47-MenuList {
+        border-radius: 5px;
+        padding: 0;
+        div {
+          cursor: pointer;
+          font-weight: 600;
+          color: $main-text-color;
+        }
+      }
+      &_dark {
+        border-bottom: 1px solid $white-color;
+        .css-1uccc91-singleValue {
+          color: $white-color;
+        }
+        .css-9gakcf-option {
+          background: $dark-theme-active-button;
+        }
+      }
+      &_light {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        .css-1uccc91-singleValue {
+          color: $main-text-color;
+        }
+        .css-9gakcf-option {
+          background: $light-theme-active-button;
+          color: $white-color !important;
+        }
+      }
+    }
+    &__date {
+      font-size: 1.2rem;
+    }
+    &__rate {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #5c9ca9;
+    }
+  }
+}

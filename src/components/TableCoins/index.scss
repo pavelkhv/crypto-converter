@@ -2,7 +2,7 @@
 
 .content-wrapper {
   border-radius: 5px;
-  box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.52);
+  box-shadow: $box-shadow;
 }
 
 .table {
@@ -14,7 +14,7 @@
     border-bottom-right-radius: 5px;
     transition: $transition;
     &_dark {
-      background: #1E1A42;
+      background: $dark-theme-block-bg;
     }
     &_light {
       background: $white-color;
@@ -126,7 +126,7 @@ th.table-coins__column {
     border-top-right-radius: 5px;
     transition: $transition;
     &_dark {
-      background: #1E1A42;
+      background: $dark-theme-block-bg;
       border-bottom: 1px solid #2E2A5E;
     }
     &_light {

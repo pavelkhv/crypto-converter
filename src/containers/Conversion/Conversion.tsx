@@ -1,8 +1,111 @@
-import React from "react";
-import { RouteProps } from "react-router-dom";
+import React, {useEffect, useReducer, useState, useMemo, useCallback} from "react";
+import { connect, ConnectedProps } from "react-redux";
+import Select, { ValueType } from "react-select";
 
-const Conversion: React.FC<RouteProps> = (props) => {
-  return <div>Conversion Page</div>;
+import { ThemeType, ConversionItemType } from "../../types/types";
+import { reducer, initialState } from "./reducer";
+import { setOptionAction, changeValueAction } from "./actions";
+
+import conversionList from "../../assets/ts/conversionList";
+import "./conversion.scss";
+
+type StateType = {
+  theme: ThemeType;
+};
+type PropsFromReduxType = ConnectedProps<typeof connector>;
+
+const mapStateToProps = (state: StateType) => ({
+  theme: state.theme,
+});
+const connector = connect(mapStateToProps, {});
+
+const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
+  const [{from, to}, dispatch] = useReducer(reducer, initialState);
+  const [rate, setRate] = useState<number>(0);
+
+  const date = useMemo(() => {
+    const currentDate = new Date();
+    return `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
+  }, [from.option, to.option]);
+
+  const onInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>, direction: string) => {
+      const value: string = e.target.value,
+        convertedValue: number =
+          direction === "from" ? +value * rate : +value / rate,
+        toFixedValue: string = (
+          Math.floor(convertedValue * 100000) / 100000
+        ).toString();
+
+      direction === "from"
+        ? dispatch(changeValueAction(value, toFixedValue))
+        : dispatch(changeValueAction(toFixedValue, value));
+    },
+    [rate]
+  );
+
+  useEffect(() => {
+    const url = "https://min-api.cryptocompare.com/data/price?";
+    
+    fetch(`${url}fsym=${from.option.value}&tsyms=${to.option.value}`)
+      .then((res) => res.json())
+      .then((res) => {
+        const toFixedValue: string = (
+          Math.floor(+from.value * res[to.option.value] * 1000000) / 1000000
+        ).toString();
+
+        setRate(res[to.option.value]);
+        dispatch(changeValueAction(from.value, toFixedValue));
+      });
+  }, [from.option, to.option]);
+
+  return (
+    <div className="conversion">
+      <div className={`conversion-block conversion-block_${theme}`}>
+        <div className={`conversion-block__info conversion-block__info_${theme}`}>
+          <p className="conversion-block__rate">
+            1 {from.option.value} = {rate} {to.option.value}
+          </p>
+          <p className="conversion-block__date"> Data for {date}</p>
+        </div>
+
+        <div className="conversion-block__row">
+          <Select
+            className={`conversion-block__select conversion-block__select_${theme}`}
+            value={from.option}
+            onChange={(option: ValueType<ConversionItemType>) => {
+              dispatch(setOptionAction(option as ConversionItemType, "from"));
+            }}
+            options={conversionList}
+          />
+
+          <Select
+            className={`conversion-block__select conversion-block__select_${theme}`}
+            value={to.option}
+            onChange={(option: ValueType<ConversionItemType>) => {
+              dispatch(setOptionAction(option as ConversionItemType, "to"));
+            }}
+            options={conversionList}
+          />
+        </div>
+
+        <div className="conversion-block__row">
+          <input
+            className={`conversion-block__input conversion-block__input_${theme}`}
+            onChange={(e) => onInput(e, "from")}
+            type="number"
+            value={from.value}
+          />
+          <input
+            className={`conversion-block__input conversion-block__input_${theme}`}
+            onChange={(e) => onInput(e, "to")}
+            type="number"
+            value={to.value}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default Conversion;
+export default connector(Conversion);
