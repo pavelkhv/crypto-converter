@@ -7,6 +7,7 @@ import { ThemeType } from "./types/types";
 import routes from "./routes";
 
 import Header from "./components/Header/Header";
+import Preloader from "./components/Preloader/Preloader";
 
 type StateType = { theme: ThemeType };
 type PropsFromReduxType = ConnectedProps<typeof connector>;
@@ -22,7 +23,7 @@ const App: React.FC<PropsFromReduxType> = ({theme, changeTheme}) => {
       <div className={`app app_${theme}`}>
         <Header theme={theme} changeTheme={changeTheme} />
         <div className="container">
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Preloader theme={theme} />}>
             <Switch>
               {routes.map(route => (
                 <Route

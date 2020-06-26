@@ -3,6 +3,7 @@ import {
   MainActionsType,
   OptionDirectoryType,
   SET_OPTION,
+  SET_LOADING,
   CHANGE_VALUE,
 } from "./actions";
 
@@ -15,6 +16,7 @@ type InitialStateType = {
     option: ConversionItemType;
     value: string;
   };
+  loading: boolean;
 };
 
 export const initialState: InitialStateType = {
@@ -32,13 +34,30 @@ export const initialState: InitialStateType = {
     },
     value: "0",
   },
+  loading: false,
 };
 
 export const reducer = 
   (state = initialState, action: MainActionsType): InitialStateType => {
     switch (action.type) {
       case SET_OPTION:
-        const dir: OptionDirectoryType = action.payload.direction;
+        const dir: OptionDirectoryType = action.payload.direction,
+              dirOpposite: OptionDirectoryType = dir === "from" ? "to" : "from";
+
+        if(action.payload.option.value === state[dirOpposite].option.value) {
+          return {
+            ...state,
+            from: {
+              ...state.from,
+              option: state.to.option,
+            },
+            to: {
+              ...state.to,
+              option: state.from.option,
+            },
+          };
+        }
+
         return {
           ...state,
           [dir]: {
@@ -48,15 +67,18 @@ export const reducer =
         };
       case CHANGE_VALUE:
         return {
+          ...state,
           from: {
-            option: state.from.option,
+            ...state.from,
             value: action.payload.valueFrom,
           },
           to: {
-            option: state.to.option,
+            ...state.to,
             value: action.payload.valueTo,
           },
         };
+      case SET_LOADING:
+        return {...state, loading: action.loading};
       default:
         return state;
     }

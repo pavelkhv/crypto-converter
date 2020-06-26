@@ -4,7 +4,9 @@ import Select, { ValueType } from "react-select";
 
 import { ThemeType, ConversionItemType } from "../../types/types";
 import { reducer, initialState } from "./reducer";
-import { setOptionAction, changeValueAction } from "./actions";
+import { setOptionAction, changeValueAction, setLoadingAction } from "./actions";
+
+import Preloader from "../../components/Preloader/Preloader";
 
 import conversionList from "../../assets/ts/conversionList";
 import "./conversion.scss";
@@ -20,7 +22,7 @@ const mapStateToProps = (state: StateType) => ({
 const connector = connect(mapStateToProps, {});
 
 const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
-  const [{from, to}, dispatch] = useReducer(reducer, initialState);
+  const [{from, to, loading}, dispatch] = useReducer(reducer, initialState);
   const [rate, setRate] = useState<number>(0);
 
   const date = useMemo(() => {
@@ -46,6 +48,8 @@ const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
 
   useEffect(() => {
     const url = "https://min-api.cryptocompare.com/data/price?";
+
+    dispatch(setLoadingAction(true));
     
     fetch(`${url}fsym=${from.option.value}&tsyms=${to.option.value}`)
       .then((res) => res.json())
@@ -56,6 +60,7 @@ const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
 
         setRate(res[to.option.value]);
         dispatch(changeValueAction(from.value, toFixedValue));
+        dispatch(setLoadingAction(false));
       });
   }, [from.option, to.option]);
 
@@ -103,7 +108,13 @@ const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
             value={to.value}
           />
         </div>
+
+        <span className="conversion-block__description">
+          Values are rounded to 5 decimal places.
+        </span>
       </div>
+
+      {loading ? <Preloader theme={theme} /> : ""}
     </div>
   );
 };

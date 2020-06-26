@@ -1,6 +1,7 @@
 @import "../../assets/scss/variables.scss";
 
 .conversion {
+  position: relative;
   &-block {
     display: flex;
     justify-content: space-between;
@@ -85,32 +86,55 @@
         transition: $transition;
       }
       // styles dropdown menu
+      .css-26l3qy-menu {
+        background: transparent;
+      }
       .css-4ljt47-MenuList {
         border-radius: 5px;
         padding: 0;
         div {
           cursor: pointer;
           font-weight: 600;
-          color: $main-text-color;
         }
       }
       &_dark {
         border-bottom: 1px solid $white-color;
+        .css-4ljt47-MenuList {
+          background: $dark-theme-bg;
+        }
         .css-1uccc91-singleValue {
           color: $white-color;
         }
         .css-9gakcf-option {
           background: $dark-theme-active-button;
+          color: $main-text-color;
+        }
+        .css-1n7v3ny-option {
+          background: $dark-theme-bg-hover;
+          color: $white-color;
+        }
+        .css-yt9ioa-option {
+          color: $white-color;
         }
       }
       &_light {
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        .css-4ljt47-MenuList {
+          background: $white-color;
+        }
         .css-1uccc91-singleValue {
           color: $main-text-color;
         }
         .css-9gakcf-option {
           background: $light-theme-active-button;
           color: $white-color !important;
+        }
+        .css-1n7v3ny-option {
+          background: rgba(132, 136, 253, 0.25);
+          color: $main-text-color;
+        }
+        .css-yt9ioa-option {
+          color: $main-text-color;
         }
       }
     }
@@ -121,6 +145,10 @@
       font-size: 2rem;
       font-weight: 600;
       color: #5c9ca9;
+    }
+    &__description {
+      font-size: 0.8rem;
+      color: $grey-color;
     }
   }
 }
