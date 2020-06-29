@@ -144,11 +144,12 @@
     &__rate {
       font-size: 2rem;
       font-weight: 600;
-      color: #5c9ca9;
+      color: #5b9ca9;
     }
     &__description {
       font-size: 0.8rem;
       color: $grey-color;
+      margin-bottom: 2rem;
     }
   }
 }

@@ -10,7 +10,7 @@ import { CoinType, ThemeType } from "../../types/types";
 
 import "./index.scss";
 
-type Props = {
+type PropsType = {
   coins: Array<CoinType>;
   errorMessage: string;
   theme: ThemeType;
@@ -20,7 +20,7 @@ type Props = {
   setSort: (sort: keyof CoinType) => void;
 };
 
-const TableCoins: React.FC<Props> = 
+const TableCoins: React.FC<PropsType> = 
   ({coins, errorMessage, theme, currency, loading, setCurrency, setSort}) => (
     <div className="content-wrapper">
       <TableCurrencies currency={currency} theme={theme} setCurrency={setCurrency}/> 

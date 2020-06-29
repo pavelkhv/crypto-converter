@@ -2,11 +2,11 @@ import React from "react";
 
 import "./errorMessage.scss";
 
-type Props = {
+type PropsType = {
   message: string;
 }
 
-const ErrorMessage: React.FC<Props> = 
+const ErrorMessage: React.FC<PropsType> = 
   ({ message }) => <div className="errorMessage">{message}</div>;
 
 export default ErrorMessage;

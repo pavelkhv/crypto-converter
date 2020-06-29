@@ -2,11 +2,11 @@ import React from "react";
 
 import { CoinType } from "../../types/types";
 
-type Props = {
+type PropsType = {
   setSort: (sort: keyof CoinType) => void;
 };
 
-const TableHeader: React.FC<Props> = ({ setSort }) => {
+const TableHeader: React.FC<PropsType> = ({ setSort }) => {
   return (
     <thead>
       <tr className="table-coins__row">

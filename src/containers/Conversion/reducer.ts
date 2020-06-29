@@ -3,6 +3,7 @@ import {
   MainActionsType,
   OptionDirectoryType,
   SET_OPTION,
+  SET_CHART,
   SET_LOADING,
   CHANGE_VALUE,
 } from "./actions";
@@ -16,6 +17,10 @@ type InitialStateType = {
     option: ConversionItemType;
     value: string;
   };
+  chartData: {
+    labels: Array<string>,
+    datasets: Array<number>,
+  },
   loading: boolean;
 };
 
@@ -33,6 +38,10 @@ export const initialState: InitialStateType = {
       label: "USD - Dollar",
     },
     value: "0",
+  },
+  chartData: {
+    labels: [],
+    datasets: [],
   },
   loading: false,
 };
@@ -77,6 +86,14 @@ export const reducer =
             value: action.payload.valueTo,
           },
         };
+      case SET_CHART:
+        return {
+          ...state,
+          chartData: {
+            labels: action.payload.labels,
+            datasets: action.payload.datasets
+          }
+        }
       case SET_LOADING:
         return {...state, loading: action.loading};
       default:

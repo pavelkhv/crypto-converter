@@ -2,9 +2,9 @@ import React from "react";
 
 import { CoinType, ThemeType } from "../../types/types";
 
-type Props = { coin: CoinType, theme: ThemeType };
+type PropsType = { coin: CoinType, theme: ThemeType };
 
-const TableRow: React.FC<Props> = (props) => {
+const TableRow: React.FC<PropsType> = (props) => {
   const {
     name,
     fullName,

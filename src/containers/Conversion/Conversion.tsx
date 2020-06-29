@@ -4,8 +4,9 @@ import Select, { ValueType } from "react-select";
 
 import { ThemeType, ConversionItemType } from "../../types/types";
 import { reducer, initialState } from "./reducer";
-import { setOptionAction, changeValueAction, setLoadingAction } from "./actions";
+import { setOptionAction, changeValueAction, setChartAction, setLoadingAction } from "./actions";
 
+import ChartLine from "../../components/ChartLine/ChartLine";
 import Preloader from "../../components/Preloader/Preloader";
 
 import conversionList from "../../assets/ts/conversionList";
@@ -22,7 +23,7 @@ const mapStateToProps = (state: StateType) => ({
 const connector = connect(mapStateToProps, {});
 
 const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
-  const [{from, to, loading}, dispatch] = useReducer(reducer, initialState);
+  const [{from, to, chartData, loading}, dispatch] = useReducer(reducer, initialState);
   const [rate, setRate] = useState<number>(0);
 
   const date = useMemo(() => {
@@ -61,6 +62,27 @@ const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
         setRate(res[to.option.value]);
         dispatch(changeValueAction(from.value, toFixedValue));
         dispatch(setLoadingAction(false));
+      });
+  }, [from.option, to.option]);
+
+  useEffect(() => {
+    const url = "https://min-api.cryptocompare.com/data/v2/histoday?";
+    
+    fetch(`${url}fsym=${from.option.value}&tsym=${to.option.value}&limit=6`)
+      .then((res) => res.json())
+      .then((res) => {
+        let labels: Array<string> = [],
+            datasets: Array<number> = [],
+            data = res.Data.Data;
+
+        data.forEach((item: typeof data[0]) => {
+          const date = new Date(item.time * 1000).toDateString();
+          
+          labels.push(date);
+          datasets.push(item.high);
+        });
+
+        dispatch(setChartAction(labels, datasets));
       });
   }, [from.option, to.option]);
 
@@ -112,6 +134,8 @@ const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
         <span className="conversion-block__description">
           Values are rounded to 5 decimal places.
         </span>
+
+        <ChartLine theme={theme} chartData={chartData} />
       </div>
 
       {loading ? <Preloader theme={theme} /> : ""}
