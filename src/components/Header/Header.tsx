@@ -25,6 +25,7 @@ const Header: React.FC<PropsType> = ({ theme, changeTheme}) => {
         <nav className="header__nav">
           <NavLink to="/" className="header__link" activeClassName="header__link_active" exact >Coins List</NavLink>
           <NavLink to="/conversion" className="header__link" activeClassName="header__link_active">Conversion</NavLink>
+          <NavLink to="/feeds" className="header__link" activeClassName="header__link_active">Feeds</NavLink>
         </nav>
 
         <div className={`toggle-theme toggle-theme_${theme}`} onClick={changeTheme}>

@@ -44,7 +44,7 @@ export type MainActionsType =
 
 export const setLoadingAction = (loading: boolean): SetLoadingActionType => ({
   type: SET_LOADING,
-  loading: loading,
+  loading,
 });
 
 export const setOptionAction = 

@@ -1,0 +1,82 @@
+@import "../../assets/scss/variables.scss";
+
+.feeds {
+  &-list {
+    position: relative;
+    width: 100%;
+    min-width: 300px;
+    min-height: 80vh;
+    .preloader_dark,
+    .preloader_light {
+      background: transparent;
+    }
+  }
+  &-item {
+    display: flex;
+    margin-bottom: 2rem;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: $box-shadow;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    &_wrapper {
+      padding: 1rem;
+    }
+    &_dark {
+      background: $dark-theme-block-bg;
+      color: $white-color;
+    }
+    &_light {
+      background: $white-color;
+      color: $main-text-color;
+    }
+    &__title {
+      display: inline-block;
+      font-size: 1.3rem;
+      text-decoration: none;
+      margin-bottom: 1rem;
+      &:hover {
+        color: #5c9ca9;
+        text-decoration: underline;
+      }
+      &_dark {
+        color: $white-color;
+      }
+      &_light {
+        color: $main-text-color;
+      }
+    }
+    &__img {
+      min-width: 200px;
+      background: no-repeat center / cover;
+    }
+    &__body {
+      line-height: 1.3em;
+    }
+    &__link {
+      text-decoration: none;
+      color: #5c9ca9;
+      font-weight: 600;
+      font-size: 1.1rem;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    &__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: $grey-color;
+      margin-bottom: 1rem;
+    }
+  }
+  
+}
+
+.infinite-scroll-component {
+  overflow: visible !important;
+  &__outerdiv {
+    width: 65%;
+  }
+}

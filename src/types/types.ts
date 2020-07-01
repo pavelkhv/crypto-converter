@@ -16,4 +16,15 @@ export type ConversionItemType = {
   label: string;
 };
 
+export type NewsType = {
+  id: string;
+  date: number;
+  img: string;
+  title: string;
+  body: string;
+  url: string;
+  source: string;
+};
+
+export type SortType = "latest" | "popular";
 export type ThemeType = "dark" | "light";

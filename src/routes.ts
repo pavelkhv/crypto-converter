@@ -4,6 +4,7 @@ import { RouteProps } from "react-router-dom";
 import Main from './containers/Main/Main';
 
 const ConversionPage = React.lazy(() => import('./containers/Conversion/Conversion'));
+const FeedsPage = React.lazy(() => import('./containers/Feeds/Feeds'));
 
 type RouteType = {
   id: number,
@@ -15,6 +16,7 @@ type RouteType = {
 const routes: Array<RouteType> = [
   {id: 0, path: "/", exact: true, component: Main},
   {id: 1, path: "/conversion", component: ConversionPage},
+  {id: 2, path: "/feeds", component: FeedsPage},
 ];
 
 export default routes;
