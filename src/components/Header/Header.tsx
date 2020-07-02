@@ -10,10 +10,15 @@ import "./header.scss";
 
 type PropsType = {
   theme: ThemeType;
-  changeTheme: () => ChangeThemeType
+  changeTheme: (theme: ThemeType) => ChangeThemeType
 };
 
 const Header: React.FC<PropsType> = ({ theme, changeTheme}) => {
+  const handleChange = () => {
+    const newTheme = theme === "dark" ? "light" : "dark"
+    changeTheme(newTheme);
+  };
+
   return (
     <header className={`header header_${theme}`}>
       <div className="header__wrap">
@@ -23,12 +28,18 @@ const Header: React.FC<PropsType> = ({ theme, changeTheme}) => {
         </Link>
 
         <nav className="header__nav">
-          <NavLink to="/" className="header__link" activeClassName="header__link_active" exact >Coins List</NavLink>
-          <NavLink to="/conversion" className="header__link" activeClassName="header__link_active">Conversion</NavLink>
-          <NavLink to="/feeds" className="header__link" activeClassName="header__link_active">Feeds</NavLink>
+          <NavLink to="/" className="header__link" activeClassName="header__link_active" exact >
+            Coins List
+          </NavLink>
+          <NavLink to="/conversion" className="header__link" activeClassName="header__link_active">
+            Conversion
+          </NavLink>
+          <NavLink to="/feeds" className="header__link" activeClassName="header__link_active">
+            Feeds
+          </NavLink>
         </nav>
 
-        <div className={`toggle-theme toggle-theme_${theme}`} onClick={changeTheme}>
+        <div className={`toggle-theme toggle-theme_${theme}`} onClick={handleChange}>
           <img 
             src={require(`../../assets/img/icons/sun-${theme}.svg`)} 
             className="toggle-theme__icon" 

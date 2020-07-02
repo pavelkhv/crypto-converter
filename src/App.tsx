@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { connect, ConnectedProps } from "react-redux";
 
@@ -18,6 +18,13 @@ const mapStateToProps = (state: StateType) => ({
 const connector = connect(mapStateToProps, { changeTheme });
 
 const App: React.FC<PropsFromReduxType> = ({theme, changeTheme}) => {
+  useEffect(() => {
+    const currentTheme = localStorage.getItem("theme");
+
+    if (currentTheme) changeTheme(currentTheme as ThemeType);
+    else localStorage.setItem("theme", theme);
+  }, []);
+
   return (
     <Router>
       <div className={`app app_${theme}`}>
