@@ -6,30 +6,22 @@ import { AppStoreType } from "../reducers/rootReducer";
 
 type GetCoinsActionType = {
   type: typeof GET_COINS;
-  payload: {
-    coins: Array<CoinType>;
-  };
+  coins: Array<CoinType>;
 };
 
 type ErrorCoinsActionType = {
   type: typeof ERROR_COINS;
-  payload: {
-    errorMessage: string;
-  };
+  errorMessage: string;
 };
 
 const getCoins = (coins: Array<CoinType>): GetCoinsActionType => ({
   type: GET_COINS,
-  payload: {
-    coins,
-  },
+  coins
 });
 
 const errorCoins = (): ErrorCoinsActionType => ({
   type: ERROR_COINS,
-  payload: {
-    errorMessage: "An error occurred while loading data. Try again later.",
-  },
+  errorMessage: "An error occurred while loading data. Try again later.",
 });
 
 export type ActionCoinsTypes = GetCoinsActionType | ErrorCoinsActionType;

@@ -38,8 +38,8 @@ const Feeds: React.FC<PropsFromReduxType> = ({ theme }) => {
   );
 
   useEffect(() => {
-    const url = "https://min-api.cryptocompare.com/data/v2/news/?lang=EN",
-          categories = activeCategories.join();
+    const url = "https://min-api.cryptocompare.com/data/v2/news/?lang=EN";
+    const categories = activeCategories.join();
 
     dispatch(setLoadingAction(true));
 

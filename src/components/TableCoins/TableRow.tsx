@@ -36,10 +36,8 @@ const TableRow: React.FC<PropsType> = (props) => {
 
       <td className="table-coins__column">
         <span 
-          className={`
-            table-coins__percent_${colorPercent}
-            table-coins__percent_${colorPercent}_${props.theme}
-          `}
+          className={`table-coins__percent_${colorPercent}
+            table-coins__percent_${colorPercent}_${props.theme}`}
         >
           {change24Hour}%
         </span>

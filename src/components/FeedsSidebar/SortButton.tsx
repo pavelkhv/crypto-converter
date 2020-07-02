@@ -13,10 +13,8 @@ const SortButton: React.FC<PropsType> = ({ theme, order, label, setOrder }) => {
   return (
     <div
       onClick={() => setOrder(label)}
-      className={`
-        feeds-sort__item feeds-sort__item_${theme}
-        ${order === label ? "feeds-sort__item_active" : ""}
-      `}
+      className={`feeds-sort__item feeds-sort__item_${theme}
+        ${order === label ? "feeds-sort__item_active" : ""}`}
     >
       {label}
     </div>

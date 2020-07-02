@@ -64,11 +64,13 @@ const Main: React.FC<PropsFromReduxType> =
 
     const sortCoinsList = useMemo(() => sortingCoins(coins, sort), [coins, sort]);
 
+    // Get coins list
     useEffect(() => {
       dispatch(setLoadingAction(true));
       getCoinsAction(currency, currentPage);
     }, [currency, currentPage, getCoinsAction]);
 
+    // Hide preloader when coins loaded
     useEffect(() => {
       dispatch(setLoadingAction(false));
     }, [coins]);

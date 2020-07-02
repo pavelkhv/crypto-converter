@@ -17,13 +17,13 @@ export const coinsReducer =
     switch (action.type) {
       case GET_COINS:
         return {
-          list: action.payload.coins,
+          list: action.coins,
           errorMessage: "",
         };
       case ERROR_COINS:
         return {
           list: [],
-          errorMessage: action.payload.errorMessage,
+          errorMessage: action.errorMessage,
         };
       default:
         return state;

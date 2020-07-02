@@ -12,8 +12,9 @@ type PropsType = {
 };
 
 const ChartLine: React.FC<PropsType> = ({ theme, chartData }) => {
-  const data = useCallback((canvas: any) => {
-    const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
+  // Generate date for chart
+  const data = useCallback((canvas: HTMLCanvasElement ) => {
+    const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!;
     const gradient: CanvasGradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, "rgba(91, 156, 169, 0.8)");
     gradient.addColorStop(1, "rgba(91, 156, 169, 0)");
@@ -36,6 +37,7 @@ const ChartLine: React.FC<PropsType> = ({ theme, chartData }) => {
     };
   }, [chartData]);
 
+  // Options for chart
   const options = useMemo(() => ({
     legend: {
       display: false,

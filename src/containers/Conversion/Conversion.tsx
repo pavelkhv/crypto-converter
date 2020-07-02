@@ -23,8 +23,9 @@ const mapStateToProps = (state: StateType) => ({
 const connector = connect(mapStateToProps, {});
 
 const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
-  const [{from, to, chartData, loading}, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [rate, setRate] = useState<number>(0);
+  const {from, to, chartData, loading} = state;
 
   const date = useMemo(() => {
     const currentDate = new Date();
@@ -33,12 +34,11 @@ const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
 
   const onInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>, direction: string) => {
-      const value: string = e.target.value,
-        convertedValue: number =
-          direction === "from" ? +value * rate : +value / rate,
-        toFixedValue: string = (
-          Math.floor(convertedValue * 100000) / 100000
-        ).toString();
+      const value: string = e.target.value;
+      const convertedValue: number =
+        direction === "from" ? +value * rate : +value / rate;
+      const toFixedValue: string = 
+        (Math.floor(convertedValue * 100000) / 100000).toString();
 
       direction === "from"
         ? dispatch(changeValueAction(value, toFixedValue))
