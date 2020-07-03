@@ -1,5 +1,6 @@
-import React, { useEffect, useReducer, useCallback } from "react";
+import React, { useEffect, useReducer, useCallback, useState } from "react";
 import { connect, ConnectedProps } from "react-redux";
+import { http } from "../../assets/ts/http";
 
 import {
   getNewsAction,
@@ -15,6 +16,7 @@ import "./feeds.scss";
 
 import FeedsList from "../../components/FeedsList/FeedsList";
 import FeedsSidebar from "../../components/FeedsSidebar/FeedsSidebar";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
 type StateType = {
   theme: ThemeType;
@@ -27,6 +29,7 @@ const mapStateToProps = (state: StateType) => ({
 const connector = connect(mapStateToProps, {});
 
 const Feeds: React.FC<PropsFromReduxType> = ({ theme }) => {
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [{ news, loading, order, categories, activeCategories },dispatch] = 
     useReducer(reducer, initialState);
 
@@ -37,17 +40,19 @@ const Feeds: React.FC<PropsFromReduxType> = ({ theme }) => {
     (category: string) => dispatch(setCategoriesAction(category)), []
   );
 
+  // Get news
   useEffect(() => {
     const url = "https://min-api.cryptocompare.com/data/v2/news/?lang=EN";
     const categories = activeCategories.join();
 
     dispatch(setLoadingAction(true));
 
-    fetch(`${url}&sortOrder=${order}${categories ? "&categories=" + categories : ""}`)
-      .then((res) => res.json())
-      .then((res) => {
-        const data = res.Data;
-        const news: Array<NewsType> = data.map((item: typeof data[0]) => {
+    (async function getNews() {
+      try {
+        const body = await http(`${url}&sortOrder=${order}${categories ? "&categories=" + categories : ""}`);
+        const data = body.Data;
+
+        const news: Array<NewsType> = data.map((item: typeof data[0]): NewsType => {
           return {
             id: item.id,
             date: item.published_on,
@@ -61,20 +66,27 @@ const Feeds: React.FC<PropsFromReduxType> = ({ theme }) => {
 
         dispatch(getNewsAction(news));
         dispatch(setLoadingAction(false));
-      });
+      }catch {
+        setErrorMessage("An error occurred while loading data. Try again later.")
+      }
+    })();
   }, [order, activeCategories]);
 
+  // Get categories
   useEffect(() => {
-    fetch("https://min-api.cryptocompare.com/data/news/categories")
-      .then((res) => res.json())
-      .then((res) => {
-        const categories = res.map((item: typeof res[0]) => item.categoryName);
+    (async function getCategories() {
+      try {
+        const body = await http(`https://min-api.cryptocompare.com/data/news/categories`);
+        const categories = body.map((item: typeof body[0]): string => item.categoryName);
 
         dispatch(getCategoriesAction(categories));
-      });
+      }catch {
+        setErrorMessage("An error occurred while loading data. Try again later.")
+      }
+    })();
   }, []);
 
-  return (
+  return (errorMessage ? <ErrorMessage message={errorMessage} /> :
     <div className="feeds">
       <FeedsList theme={theme} news={news} loading={loading} />
       <FeedsSidebar

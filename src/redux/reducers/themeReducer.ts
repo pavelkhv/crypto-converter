@@ -2,7 +2,7 @@ import { CHANGE_THEME } from "../actionTypes";
 import { ChangeThemeType } from "../actions/themeAction";
 import { ThemeType } from "../../types/types";
 
-const initialState: ThemeType = localStorage.getItem("theme") as ThemeType;
+const initialState: ThemeType = localStorage.getItem("theme") as ThemeType || "dark";
 
 const themeReducer = 
   (state = initialState, action: ChangeThemeType): ThemeType => {

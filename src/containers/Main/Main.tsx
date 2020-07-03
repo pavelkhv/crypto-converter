@@ -34,10 +34,9 @@ const mapStateToProps = (state: StateType) => ({
 const connector = connect(mapStateToProps, { getCoinsAction });
 
 // Convert sort item to number
-const itemToNumber = 
-  (obj: CoinType, name: keyof CoinType, num: number): number => {
-    return obj[name] ? Number(obj[name].slice(num).replace(/[,%]/g, '')) : 0
-  }
+const itemToNumber = (obj: CoinType, name: keyof CoinType, num: number): number => {
+  return obj[name] ? Number(obj[name].slice(num).replace(/[,%]/g, '')) : 0
+}
 
 const sortingCoins = (coins: Array<CoinType>, sort: SortType): Array<CoinType> => {
   let coinsList = [...coins];
