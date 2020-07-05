@@ -1,11 +1,10 @@
 import React, {useEffect, useReducer, useState, useMemo, useCallback} from "react";
 import { connect, ConnectedProps } from "react-redux";
 import Select, { ValueType } from "react-select";
-import { http } from "../../assets/ts/http";
 
 import { ThemeType, ConversionItemType } from "../../types/types";
 import { reducer, initialState } from "./reducer";
-import { setOptionAction, changeValueAction, setChartAction, setLoadingAction } from "./actions";
+import { setOptionAction, changeValueAction, getHistory, getPrice } from "./actions";
 
 import ChartLine from "../../components/ChartLine/ChartLine";
 import Preloader from "../../components/Preloader/Preloader";
@@ -24,11 +23,11 @@ const mapStateToProps = (state: StateType) => ({
 });
 const connector = connect(mapStateToProps, {});
 
+const commonURL = "https://min-api.cryptocompare.com/data/";
+
 const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [rate, setRate] = useState<number>(0);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const {from, to, chartData, loading} = state;
+  const {from, to, chartData, loading, errorMessage, rate} = state;
 
   const date = useMemo(() => {
     const currentDate = new Date();
@@ -52,49 +51,19 @@ const Conversion: React.FC<PropsFromReduxType> = ({ theme }) => {
 
   // Get price
   useEffect(() => {
-    const url = "https://min-api.cryptocompare.com/data/price?";
+    const url = `${commonURL}price?fsym=${from.option.value}&tsyms=${to.option.value}`;
 
-    dispatch(setLoadingAction(true));
-
-    (async function getPrice() {
-      try {
-        const body = await http(`${url}fsym=${from.option.value}&tsyms=${to.option.value}`);
-        const toFixedValue: string = (
-          Math.floor(+from.value * body[to.option.value] * 1000000) / 1000000
-        ).toString();
-
-        setRate(body[to.option.value]);
-        dispatch(changeValueAction(from.value, toFixedValue));
-        dispatch(setLoadingAction(false));
-      }catch {
-        setErrorMessage("An error occurred while loading data. Try again later.")
-      }
+    (async function() {
+      await getPrice(url, dispatch, from.value, to.option.value);
     })();
   }, [from.option, to.option]);
 
   // Get history prices for a week
   useEffect(() => {
-    const url = "https://min-api.cryptocompare.com/data/v2/histoday?limit=6&";
+    const url = `${commonURL}v2/histoday?&fsym=${from.option.value}&tsym=${to.option.value}`;
 
-    (async function getHistory() {
-      try {
-        const body = await http(`${url}fsym=${from.option.value}&tsym=${to.option.value}`);
-        const data = body.Data.Data;
-
-        let labels: Array<string> = [],
-            datasets: Array<number> = [];
-
-        data.forEach((item: typeof data[0]): void => {
-          const date = new Date(item.time * 1000).toDateString();
-          
-          labels.push(date);
-          datasets.push(item.high);
-        });
-
-        dispatch(setChartAction(labels, datasets));
-      }catch {
-        setErrorMessage("An error occurred while loading data. Try again later.")
-      }
+    (async function() {
+      await getHistory(url, dispatch);
     })();
   }, [from.option, to.option]);
 

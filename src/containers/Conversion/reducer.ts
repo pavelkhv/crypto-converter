@@ -4,6 +4,8 @@ import {
   OptionDirectoryType,
   SET_OPTION,
   SET_CHART,
+  SET_ERROR,
+  SET_RATE,
   SET_LOADING,
   CHANGE_VALUE,
 } from "./actions";
@@ -22,6 +24,8 @@ type InitialStateType = {
     datasets: Array<number>,
   },
   loading: boolean;
+  errorMessage: string;
+  rate: number;
 };
 
 export const initialState: InitialStateType = {
@@ -44,6 +48,8 @@ export const initialState: InitialStateType = {
     datasets: [],
   },
   loading: false,
+  errorMessage: "",
+  rate: 1
 };
 
 export const reducer = 
@@ -64,6 +70,7 @@ export const reducer =
               ...state.to,
               option: state.from.option,
             },
+            errorMessage: ""
           };
         }
 
@@ -73,6 +80,7 @@ export const reducer =
             option: action.payload.option,
             value: state[dir].value,
           },
+          errorMessage: ""
         };
       case CHANGE_VALUE:
         return {
@@ -96,6 +104,10 @@ export const reducer =
         }
       case SET_LOADING:
         return {...state, loading: action.loading};
+      case SET_ERROR:
+        return {...state, errorMessage: action.errorMessage};
+      case SET_RATE:
+        return {...state, rate: action.rate};
       default:
         return state;
     }

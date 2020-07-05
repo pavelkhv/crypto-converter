@@ -4,6 +4,7 @@ import {
   GET_NEWS,
   SET_LOADING,
   SET_SORT,
+  SET_ERROR,
   GET_CATEGORIES,
   SET_CATEGORIES,
 } from "./actions";
@@ -14,6 +15,7 @@ type InitialStateType = {
   order: SortType;
   categories: Array<string>;
   activeCategories: Array<string>;
+  errorMessage: string;
 };
 
 export const initialState: InitialStateType = {
@@ -22,13 +24,14 @@ export const initialState: InitialStateType = {
   order: "latest",
   categories: [],
   activeCategories: [],
+  errorMessage: ""
 };
 
 export const reducer = 
   (state = initialState, action: MainActionsType): InitialStateType => {
     switch (action.type) {
       case GET_NEWS:
-        return { ...state, news: action.news };
+        return { ...state, news: action.news, errorMessage: "" };
       case SET_LOADING:
         return { ...state, loading: action.loading };
       case SET_SORT:
@@ -48,6 +51,8 @@ export const reducer =
         categories.push(action.category);
 
         return { ...state, activeCategories: categories };
+      case SET_ERROR:
+        return {...state, errorMessage: action.errorMessage};
       default:
         return state;
     }
